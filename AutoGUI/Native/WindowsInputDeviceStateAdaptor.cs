@@ -1,4 +1,4 @@
-﻿namespace HKW.AutoGUI.Native
+﻿namespace HKW.AutoGUI
 {
     /// <summary>
     /// Windows输入设备状态适配器

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace HKW.AutoGUI.Native;
+namespace HKW.AutoGUI;
 
 /// <summary>
 /// 消息适配器

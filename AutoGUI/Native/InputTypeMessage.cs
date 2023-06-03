@@ -1,5 +1,5 @@
 ﻿using System;
-using HKW.AutoGUI.Native;
+using HKW.AutoGUI;
 
 namespace HKW.AutoGUI;
 

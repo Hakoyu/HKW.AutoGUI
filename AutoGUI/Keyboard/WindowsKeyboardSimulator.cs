@@ -5,7 +5,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using HKW.AutoGUI.Native;
+using HKW.AutoGUI;
 
 namespace HKW.AutoGUI;
 
@@ -13,11 +13,8 @@ namespace HKW.AutoGUI;
 /// 键盘模拟
 /// </summary>
 [DebuggerDisplay("DownedKeysCount = {DownedKeys.Count}")]
-public class KeyboardSimulator : IKeyboardSimulator
+public class WindowsKeyboardSimulator : IKeyboardSimulator
 {
-    /// <inheritdoc/>
-    public IMouseSimulator Mouse => _iAutoGUI.Mouse;
-
     /// <inheritdoc/>
     public IReadOnlySet<VirtualKeyCode> DownedKeys => r_downedKeys;
 
@@ -35,7 +32,7 @@ public class KeyboardSimulator : IKeyboardSimulator
     /// </summary>
     /// <param name="iAutoGUI">自动GUI接口</param>
     /// <exception cref="ArgumentNullException">若 <paramref name="iAutoGUI"/> 为 <see langword="null"/></exception>
-    public KeyboardSimulator(IAutoGUI iAutoGUI)
+    public WindowsKeyboardSimulator(IAutoGUI iAutoGUI)
     {
         _iAutoGUI = iAutoGUI ?? throw new ArgumentNullException(nameof(iAutoGUI));
         r_messageDispatcher = new WindowsInputMessageDispatcher();
@@ -47,7 +44,7 @@ public class KeyboardSimulator : IKeyboardSimulator
     /// <param name="iAutoGUI">自动GUI接口</param>
     /// <param name="messageDispatcher">消息适配器</param>
     /// <exception cref="ArgumentNullException">若 <paramref name="iAutoGUI"/> 或 <paramref name="messageDispatcher"/> 为 <see langword="null"/></exception>
-    internal KeyboardSimulator(IAutoGUI iAutoGUI, IInputMessageDispatcher messageDispatcher)
+    internal WindowsKeyboardSimulator(IAutoGUI iAutoGUI, IInputMessageDispatcher messageDispatcher)
     {
         _iAutoGUI = iAutoGUI ?? throw new ArgumentNullException(nameof(iAutoGUI));
         r_messageDispatcher =
@@ -56,7 +53,7 @@ public class KeyboardSimulator : IKeyboardSimulator
                 nameof(messageDispatcher),
                 string.Format(
                     "The {0} cannot operate with a null {1}. Please provide a valid {1} instance to use for dispatching {2} messages.",
-                    typeof(KeyboardSimulator).Name,
+                    typeof(WindowsKeyboardSimulator).Name,
                     typeof(IInputMessageDispatcher).Name,
                     typeof(InputTypeMessage).Name
                 )
@@ -103,6 +100,7 @@ public class KeyboardSimulator : IKeyboardSimulator
             builder.AddKeyPress(key);
     }
 
+    #region IKeyboardSimulator
     /// <summary>
     /// 发送模拟输入
     /// </summary>
@@ -117,7 +115,8 @@ public class KeyboardSimulator : IKeyboardSimulator
     {
         var inputList = new InputBuilder();
         inputList.AddKeyDown(keyCode);
-        r_downedKeys.Add(keyCode);
+        if (record)
+            r_downedKeys.Add(keyCode);
         SendSimulatedInput(inputList);
         return this;
     }
@@ -133,7 +132,8 @@ public class KeyboardSimulator : IKeyboardSimulator
     {
         var builder = new InputBuilder();
         ModifiersDown(builder, keyCodes);
-        r_downedKeys.UnionWith(keyCodes);
+        if (record)
+            r_downedKeys.UnionWith(keyCodes);
         SendSimulatedInput(builder);
         return this;
     }
@@ -216,7 +216,8 @@ public class KeyboardSimulator : IKeyboardSimulator
         SendSimulatedInput(inputList);
         return this;
     }
-
+    #endregion
+    #region IInputDelay
     /// <inheritdoc/>
     public IKeyboardSimulator Sleep(int millsecondsTimeout)
     {
@@ -244,4 +245,5 @@ public class KeyboardSimulator : IKeyboardSimulator
         await Task.Delay(timeout);
         return this;
     }
+    #endregion
 }

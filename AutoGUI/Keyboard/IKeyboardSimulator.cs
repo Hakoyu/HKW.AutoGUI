@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
-using HKW.AutoGUI.Native;
+using HKW.AutoGUI;
 
 namespace HKW.AutoGUI;
 
@@ -11,11 +11,6 @@ namespace HKW.AutoGUI;
 /// </summary>
 public interface IKeyboardSimulator : IInputDelay<IKeyboardSimulator>
 {
-    /// <summary>
-    /// 鼠标
-    /// </summary>
-    public IMouseSimulator Mouse { get; }
-
     /// <summary>
     /// 按下的按键
     /// </summary>

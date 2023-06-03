@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace HKW.AutoGUI.Native;
+namespace HKW.AutoGUI;
 
 #pragma warning disable CA1069 // 不应复制枚举值
 /// <summary>

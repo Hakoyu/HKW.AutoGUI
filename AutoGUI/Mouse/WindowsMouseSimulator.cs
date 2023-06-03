@@ -3,15 +3,14 @@ using System.Diagnostics;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Timers;
-using HKW.AutoGUI.Mouse;
-using HKW.AutoGUI.Native;
+using HKW.AutoGUI;
 
 namespace HKW.AutoGUI;
 
 /// <summary>
 /// 鼠标模拟
 /// </summary>
-public class MouseSimulator : IMouseSimulator
+public class WindowsMouseSimulator : IMouseSimulator
 {
     /// <inheritdoc/>
     public MousePoint Position => GetMousePosition();
@@ -24,9 +23,6 @@ public class MouseSimulator : IMouseSimulator
 
     private readonly IAutoGUI r_iAutoGUI;
 
-    /// <inheritdoc/>
-    public IKeyboardSimulator Keyboard => r_iAutoGUI.Keyboard;
-
     /// <summary>
     /// 消息分配器
     /// </summary>
@@ -37,7 +33,7 @@ public class MouseSimulator : IMouseSimulator
     /// </summary>
     /// <param name="iAutoGUI">自动GUI接口</param>
     /// <exception cref="ArgumentNullException">若 <paramref name="iAutoGUI"/> 为 <see langword="null"/></exception>
-    public MouseSimulator(IAutoGUI iAutoGUI)
+    public WindowsMouseSimulator(IAutoGUI iAutoGUI)
     {
         r_iAutoGUI = iAutoGUI ?? throw new ArgumentNullException(nameof(iAutoGUI));
         r_messageDispatcher = new WindowsInputMessageDispatcher();
@@ -50,7 +46,7 @@ public class MouseSimulator : IMouseSimulator
     /// <param name="iAutoGUI">自动GUI接口</param>
     /// <param name="messageDispatcher">消息分配器</param>
     /// <exception cref="ArgumentNullException">若 <paramref name="iAutoGUI"/> 或 <paramref name="messageDispatcher"/> 为 <see langword="null"/></exception>
-    internal MouseSimulator(IAutoGUI iAutoGUI, IInputMessageDispatcher messageDispatcher)
+    internal WindowsMouseSimulator(IAutoGUI iAutoGUI, IInputMessageDispatcher messageDispatcher)
     {
         r_iAutoGUI = iAutoGUI ?? throw new ArgumentNullException(nameof(iAutoGUI));
         r_messageDispatcher =
@@ -59,7 +55,7 @@ public class MouseSimulator : IMouseSimulator
                 nameof(messageDispatcher),
                 string.Format(
                     "The {0} cannot operate with a null {1}. Please provide a valid {1} instance to use for dispatching {2} messages.",
-                    typeof(MouseSimulator).Name,
+                    typeof(WindowsMouseSimulator).Name,
                     typeof(IInputMessageDispatcher).Name,
                     typeof(InputTypeMessage).Name
                 )
@@ -72,8 +68,18 @@ public class MouseSimulator : IMouseSimulator
     /// </summary>
     private void InitializeAbstractRatio()
     {
-        _abstractXRatio = 65535.0 / SystemMetrics.ScreenWidth;
-        _abstractYRatio = 65535.0 / SystemMetrics.ScreenHeight;
+        _abstractXRatio = 65535.0 / r_iAutoGUI.Screen.Size.Width;
+        _abstractYRatio = 65535.0 / r_iAutoGUI.Screen.Size.Height;
+    }
+
+    /// <summary>
+    /// 获取鼠标坐标
+    /// </summary>
+    /// <returns>鼠标坐标</returns>
+    private static MousePoint GetMousePosition()
+    {
+        NativeMethods.GetCursorPos(out var point);
+        return point;
     }
 
     /// <summary>
@@ -109,6 +115,7 @@ public class MouseSimulator : IMouseSimulator
         SendSimulatedInput(inputList);
     }
 
+    #region IMouseSimulator
     /// <inheritdoc/>
     public IMouseSimulator MoveBy(int pixelDeltaX, int pixelDeltaY, int duration = 0)
     {
@@ -346,13 +353,8 @@ public class MouseSimulator : IMouseSimulator
         SendSimulatedInput(inputList);
         return this;
     }
-
-    private static MousePoint GetMousePosition()
-    {
-        NativeMethods.GetCursorPos(out var point);
-        return point;
-    }
-
+    #endregion
+    #region IInputDelay
     /// <inheritdoc/>
     public IMouseSimulator Sleep(int millsecondsTimeout)
     {
@@ -380,4 +382,35 @@ public class MouseSimulator : IMouseSimulator
         await Task.Delay(timeout);
         return this;
     }
+    #endregion
+    #region IMouseOnScreen
+    /// <inheritdoc/>
+    public bool OnScreen()
+    {
+        return true;
+    }
+
+    /// <inheritdoc/>
+    public bool OnScreen(int pixelX, int pixelY)
+    {
+        var position = Position;
+        if (position.X < pixelX || position.Y < pixelY)
+            return false;
+        return true;
+    }
+
+    /// <inheritdoc/>
+    public bool OnScreen(int pixelX, int pixelY, int width, int height)
+    {
+        var position = Position;
+        if (
+            position.X < pixelX
+            || position.X > (pixelX + width)
+            || position.Y < pixelY
+            || position.Y > (pixelY + height)
+        )
+            return false;
+        return true;
+    }
+    #endregion
 }

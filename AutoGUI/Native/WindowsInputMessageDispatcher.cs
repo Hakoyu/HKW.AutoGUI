@@ -3,14 +3,14 @@ using System.Linq;
 using System.Runtime.InteropServices;
 using System.Threading;
 
-namespace HKW.AutoGUI.Native;
+namespace HKW.AutoGUI;
 
 /// <summary>
 /// Windows消息适配器
 /// </summary>
 internal class WindowsInputMessageDispatcher : IInputMessageDispatcher
 {
-    private static readonly int sr_lnputSize = Marshal.SizeOf(typeof(InputTypeMessage));
+    private static readonly int sr_lnputStructureSize = Marshal.SizeOf(typeof(InputTypeMessage));
 
     /// <inheritdoc/>
     /// <exception cref="ArgumentException">若 <paramref name="input"/> 为空</exception>
@@ -23,7 +23,11 @@ internal class WindowsInputMessageDispatcher : IInputMessageDispatcher
         var inputArray = input.ToArray();
         if (inputArray.Length == 0)
             throw new ArgumentException("The input array was empty", nameof(input));
-        var successful = NativeMethods.SendInput((uint)inputArray.Length, inputArray, sr_lnputSize);
+        var successful = NativeMethods.SendInput(
+            (uint)inputArray.Length,
+            inputArray,
+            sr_lnputStructureSize
+        );
         if (successful != inputArray.Length)
             throw new Exception(
                 "Some simulated input commands were not sent successfully. The most common reason for this happening are the security features of Windows including User Interface Privacy Isolation (UIPI). Your application can only send commands to applications of the same or lower elevation. Similarly certain commands are restricted to Accessibility/UIAutomation applications. Refer to the project home page and the code samples for more information."

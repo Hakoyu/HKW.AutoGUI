@@ -1,4 +1,4 @@
-﻿namespace HKW.AutoGUI.Native;
+﻿namespace HKW.AutoGUI;
 
 /// <summary>
 /// 输入设备状态适配器接口

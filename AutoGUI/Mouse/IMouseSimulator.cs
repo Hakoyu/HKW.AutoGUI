@@ -1,14 +1,13 @@
 ﻿using System;
 using System.Threading;
-using HKW.AutoGUI.Mouse;
-using HKW.AutoGUI.Native;
+using HKW.AutoGUI;
 
 namespace HKW.AutoGUI;
 
 /// <summary>
 /// 鼠标模拟接口
 /// </summary>
-public interface IMouseSimulator : IInputDelay<IMouseSimulator>
+public interface IMouseSimulator : IMouseOnScreen, IInputDelay<IMouseSimulator>
 {
     /// <summary>
     /// 位置
@@ -20,11 +19,6 @@ public interface IMouseSimulator : IInputDelay<IMouseSimulator>
     /// <para>默认为 <see langword="120"/> 不同的值可能导致一些应用程序对滚动的解释与预期不同。</para>
     /// </summary>
     public int MouseWheelClickSize { get; set; }
-
-    /// <summary>
-    /// 键盘模拟
-    /// </summary>
-    public IKeyboardSimulator Keyboard { get; }
 
     /// <summary>
     /// 相对移动至 (单位为像素)

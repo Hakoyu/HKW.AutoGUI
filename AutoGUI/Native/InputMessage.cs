@@ -1,6 +1,6 @@
 ﻿using System.Runtime.InteropServices;
 
-namespace HKW.AutoGUI.Native;
+namespace HKW.AutoGUI;
 
 /// <summary>
 /// <see cref="NativeMethods.SendInput(uint, InputTypeMessage[], int)"/> 用于存储用于合成输入事件的信息，例如击键、鼠标移动和鼠标单击。

@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using HKW.AutoGUI.Mouse;
+using HKW.AutoGUI;
 
-namespace HKW.AutoGUI.Native;
+namespace HKW.AutoGUI;
 
 /// <summary>
 /// 输入信息构造器

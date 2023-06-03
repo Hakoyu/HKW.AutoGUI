@@ -1,5 +1,5 @@
 ﻿using System;
-using HKW.AutoGUI.Native;
+using HKW.AutoGUI;
 
 namespace HKW.AutoGUI;
 
@@ -20,31 +20,38 @@ public class HKWAutoGUI : IAutoGUI
     /// <inheritdoc/>
     public IInputDeviceStateAdaptor InputDeviceState { get; }
 
+    /// <inheritdoc/>
+    public IScreenUtils Screen { get; }
+
     /// <summary>
     /// 默认实例
     /// </summary>
     public static HKWAutoGUI Default { get; } = new();
 
     /// <inheritdoc/>
-    /// <param name="keyboardSimulator">用于模拟键盘输入的 <see cref="IKeyboardSimulator"/> 实例。</param>
-    /// <param name="mouseSimulator">用于模拟鼠标输入的 <see cref="IMouseSimulator"/> 实例。</param>
-    /// <param name="inputDeviceStateAdaptor"><see cref="IInputDeviceStateAdaptor"/>实例, 用于解释输入设备的状态。</param>
+    /// <param name="mouseSimulator">鼠标模拟</param>
+    /// <param name="keyboardSimulator">键盘模拟</param>
+    /// <param name="inputDeviceStateAdaptor">设备输入状态</param>
+    /// <param name="screenUtils">屏幕工具</param>
     public HKWAutoGUI(
-        IKeyboardSimulator keyboardSimulator,
         IMouseSimulator mouseSimulator,
-        IInputDeviceStateAdaptor inputDeviceStateAdaptor
+        IKeyboardSimulator keyboardSimulator,
+        IInputDeviceStateAdaptor inputDeviceStateAdaptor,
+        IScreenUtils screenUtils
     )
     {
-        Keyboard = keyboardSimulator;
+        Screen = screenUtils;
         Mouse = mouseSimulator;
+        Keyboard = keyboardSimulator;
         InputDeviceState = inputDeviceStateAdaptor;
     }
 
     /// <inheritdoc/>
     public HKWAutoGUI()
     {
-        Keyboard = new KeyboardSimulator(this);
-        Mouse = new MouseSimulator(this);
+        Screen = new WindowsScreenUtils();
+        Keyboard = new WindowsKeyboardSimulator(this);
+        Mouse = new WindowsMouseSimulator(this);
         InputDeviceState = new WindowsInputDeviceStateAdaptor();
     }
 }

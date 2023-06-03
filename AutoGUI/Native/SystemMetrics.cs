@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace HKW.AutoGUI.Native;
+namespace HKW.AutoGUI;
 
 internal static class SystemMetrics
 {
