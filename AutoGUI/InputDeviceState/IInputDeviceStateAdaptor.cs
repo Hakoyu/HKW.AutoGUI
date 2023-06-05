@@ -1,4 +1,6 @@
-﻿namespace HKW.AutoGUI;
+﻿using HKW.AutoGUI.Native.Windows;
+
+namespace HKW.AutoGUI.InputDeviceState;
 
 /// <summary>
 /// 输入设备状态适配器接口

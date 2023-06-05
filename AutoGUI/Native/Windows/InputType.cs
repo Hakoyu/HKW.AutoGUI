@@ -1,4 +1,4 @@
-﻿namespace HKW.AutoGUI;
+﻿namespace HKW.AutoGUI.Native.Windows;
 
 /// <summary>
 /// 输入类型

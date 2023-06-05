@@ -1,9 +1,8 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using HKW.AutoGUI;
+﻿using System.Collections;
+using HKW.AutoGUI.Keyboard;
+using HKW.AutoGUI.Mouse;
 
-namespace HKW.AutoGUI;
+namespace HKW.AutoGUI.Native.Windows;
 
 /// <summary>
 /// 输入信息构造器
@@ -147,7 +146,7 @@ internal class InputBuilder : IList<InputTypeMessage>
                 Keyboard = new KeybdInput
                 {
                     KeyCode = (ushort)keyCode,
-                    Scan = (ushort)(NativeMethods.MapVirtualKey((uint)keyCode, 0) & 0xFFU),
+                    Scan = (ushort)(WindowsNativeMethods.MapVirtualKey((uint)keyCode, 0) & 0xFFU),
                     Flags = IsExtendedKey(keyCode) ? KeyboardFlag.ExtendedKey : 0,
                     Time = 0,
                     ExtraInfo = IntPtr.Zero
@@ -172,7 +171,7 @@ internal class InputBuilder : IList<InputTypeMessage>
                 Keyboard = new KeybdInput
                 {
                     KeyCode = (ushort)keyCode,
-                    Scan = (ushort)(NativeMethods.MapVirtualKey((uint)keyCode, 0) & 0xFFU),
+                    Scan = (ushort)(WindowsNativeMethods.MapVirtualKey((uint)keyCode, 0) & 0xFFU),
                     Flags = IsExtendedKey(keyCode)
                         ? KeyboardFlag.KeyUp | KeyboardFlag.ExtendedKey
                         : KeyboardFlag.KeyUp,

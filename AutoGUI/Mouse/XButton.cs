@@ -1,4 +1,4 @@
-﻿namespace HKW.AutoGUI;
+﻿namespace HKW.AutoGUI.Mouse;
 
 /// <summary>
 /// X按钮

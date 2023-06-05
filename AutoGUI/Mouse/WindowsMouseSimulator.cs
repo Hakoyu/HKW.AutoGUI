@@ -1,15 +1,16 @@
-﻿using System;
-using System.Diagnostics;
-using System.Threading;
-using System.Threading.Tasks;
-using System.Timers;
-using HKW.AutoGUI;
+﻿using System.Diagnostics;
+using System.Runtime.InteropServices;
+using System.Runtime.Versioning;
+using HKW.AutoGUI.AutoGUI;
+using HKW.AutoGUI.InputDeviceState;
+using HKW.AutoGUI.Native.Windows;
 
-namespace HKW.AutoGUI;
+namespace HKW.AutoGUI.Mouse;
 
 /// <summary>
 /// 鼠标模拟
 /// </summary>
+[SupportedOSPlatform(nameof(OSPlatform.Windows))]
 public class WindowsMouseSimulator : IMouseSimulator
 {
     /// <inheritdoc/>
@@ -78,7 +79,7 @@ public class WindowsMouseSimulator : IMouseSimulator
     /// <returns>鼠标坐标</returns>
     private static MousePoint GetMousePosition()
     {
-        NativeMethods.GetCursorPos(out var point);
+        WindowsNativeMethods.GetCursorPos(out var point);
         return point;
     }
 
@@ -405,9 +406,9 @@ public class WindowsMouseSimulator : IMouseSimulator
         var position = Position;
         if (
             position.X < pixelX
-            || position.X > (pixelX + width)
+            || position.X > pixelX + width
             || position.Y < pixelY
-            || position.Y > (pixelY + height)
+            || position.Y > pixelY + height
         )
             return false;
         return true;

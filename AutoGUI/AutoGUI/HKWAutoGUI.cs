@@ -1,7 +1,10 @@
-﻿using System;
-using HKW.AutoGUI;
+﻿using System.Runtime.InteropServices;
+using HKW.AutoGUI.InputDeviceState;
+using HKW.AutoGUI.Keyboard;
+using HKW.AutoGUI.Mouse;
+using HKW.AutoGUI.Screen;
 
-namespace HKW.AutoGUI;
+namespace HKW.AutoGUI.AutoGUI;
 
 /// <summary>
 /// GUI自动化模块
@@ -49,9 +52,14 @@ public class HKWAutoGUI : IAutoGUI
     /// <inheritdoc/>
     public HKWAutoGUI()
     {
-        Screen = new WindowsScreenUtils();
-        Keyboard = new WindowsKeyboardSimulator(this);
-        Mouse = new WindowsMouseSimulator(this);
-        InputDeviceState = new WindowsInputDeviceStateAdaptor();
+        if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+        {
+            Screen = new WindowsScreenUtils();
+            Keyboard = new WindowsKeyboardSimulator(this);
+            Mouse = new WindowsMouseSimulator(this);
+            InputDeviceState = new WindowsInputDeviceStateAdaptor();
+        }
+        else
+            throw new PlatformNotSupportedException("Unsupported platform");
     }
 }

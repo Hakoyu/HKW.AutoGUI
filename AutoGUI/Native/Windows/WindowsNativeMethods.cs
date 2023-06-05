@@ -1,12 +1,14 @@
-﻿using System;
-using System.Runtime.InteropServices;
+﻿using System.Runtime.InteropServices;
+using System.Runtime.Versioning;
+using HKW.AutoGUI.Mouse;
 
-namespace HKW.AutoGUI;
+namespace HKW.AutoGUI.Native.Windows;
 
 /// <summary>
 /// 使用WindowsAPI的本地方法
 /// </summary>
-internal static class NativeMethods
+[SupportedOSPlatform(nameof(OSPlatform.Windows))]
+internal static class WindowsNativeMethods
 {
     /// <summary>
     /// 获取按键状态

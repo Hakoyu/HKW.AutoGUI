@@ -1,14 +1,11 @@
-﻿#if DEBUG
-using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Buffers;
+using System.Drawing;
+using System.Drawing.Imaging;
 using System.Runtime.InteropServices;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
-using SixLabors.ImageSharp;
-using SixLabors.ImageSharp.PixelFormats;
-#endif
+using HKW.AutoGUI.AutoGUI;
+using HKW.AutoGUI.Native.Windows;
+using SixLabors.ImageSharp.Advanced;
+
 namespace HKW.AutoGUI;
 
 internal class Program
@@ -25,13 +22,25 @@ internal class Program
         //Console.WriteLine(HKWAutoGUI.Default.Mouse.MoveTo(201, 201).OnScreen(100, 100, 100, 100));
         //stopWatch.Stop();
         //Console.WriteLine($"\nSTOP {stopWatch.ElapsedMilliseconds:f4}ms");
+        string file = @"C:\Users\HKW\Desktop\1.bmp";
+        WinGDI32.CaptureScreen().ToImageSharp().Save(file);
+        //HKWAutoGUI.Default.Screen.Screenshot().Save(file);
+        //DesktopDuplicator dd = new();
+        //var bmp = dd.GetLatestFrame(out _);
+        //SystemDrawingBridge.From32bppArgbSystemDrawingBitmap<Bgr24>(bmp).Save(file);
+        //using MemoryStream ms = new();
+        //bmp.Save(ms, ImageFormat.Bmp);
+        //SixLabors.ImageSharp.Image.Load(ms.ToArray()).SaveAsBmp(file);
+        //Image image = Image.Load(bmp.LockBits().);
 
 #endif
     }
-}
 
 #if DEBUG
 
+#endif
+}
 
-
+#if DEBUG
+internal static class TestExtension { }
 #endif

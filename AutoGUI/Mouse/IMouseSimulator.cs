@@ -1,8 +1,6 @@
-﻿using System;
-using System.Threading;
-using HKW.AutoGUI;
+﻿using HKW.AutoGUI.InputDeviceState;
 
-namespace HKW.AutoGUI;
+namespace HKW.AutoGUI.Mouse;
 
 /// <summary>
 /// 鼠标模拟接口
@@ -51,7 +49,7 @@ public interface IMouseSimulator : IMouseOnScreen, IInputDelay<IMouseSimulator>
     /// </summary>
     /// <param name="absoluteX">绝对值X 范围: <see langword="0"/> ~ <see langword="65535"/></param>
     /// <param name="absoluteY">绝对值Y 范围: <see langword="0"/> ~ <see langword="65535"/></param>
-    /// <param name = "duration" > 持续时间(单位为毫秒) 默认为: <see langword="0"/></param>
+    /// <param name="duration"> 持续时间(单位为毫秒) 默认为: <see langword="0"/></param>
     public IMouseSimulator AbsoluteMoveToPositionOnVirtualDesktop(
         int absoluteX,
         int absoluteY,

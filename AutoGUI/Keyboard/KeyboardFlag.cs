@@ -1,6 +1,6 @@
-﻿using System;
+﻿using HKW.AutoGUI.Native.Windows;
 
-namespace HKW.AutoGUI;
+namespace HKW.AutoGUI.Keyboard;
 
 /// <summary>
 /// 键盘标识符

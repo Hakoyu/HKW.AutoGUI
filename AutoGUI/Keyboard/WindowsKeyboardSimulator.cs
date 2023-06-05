@@ -1,17 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Diagnostics;
-using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
-using HKW.AutoGUI;
+﻿using System.Diagnostics;
+using System.Runtime.InteropServices;
+using System.Runtime.Versioning;
+using HKW.AutoGUI.AutoGUI;
+using HKW.AutoGUI.InputDeviceState;
+using HKW.AutoGUI.Native.Windows;
 
-namespace HKW.AutoGUI;
+namespace HKW.AutoGUI.Keyboard;
 
 /// <summary>
 /// 键盘模拟
 /// </summary>
+[SupportedOSPlatform(nameof(OSPlatform.Windows))]
 [DebuggerDisplay("DownedKeysCount = {DownedKeys.Count}")]
 public class WindowsKeyboardSimulator : IKeyboardSimulator
 {

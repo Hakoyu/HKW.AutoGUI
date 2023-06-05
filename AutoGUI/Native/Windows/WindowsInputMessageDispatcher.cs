@@ -1,13 +1,13 @@
-﻿using System;
-using System.Linq;
-using System.Runtime.InteropServices;
-using System.Threading;
+﻿using System.Runtime.InteropServices;
+using System.Runtime.Versioning;
+using HKW.AutoGUI.InputDeviceState;
 
-namespace HKW.AutoGUI;
+namespace HKW.AutoGUI.Native.Windows;
 
 /// <summary>
 /// Windows消息适配器
 /// </summary>
+[SupportedOSPlatform(nameof(OSPlatform.Windows))]
 internal class WindowsInputMessageDispatcher : IInputMessageDispatcher
 {
     private static readonly int sr_lnputStructureSize = Marshal.SizeOf(typeof(InputTypeMessage));
@@ -23,7 +23,7 @@ internal class WindowsInputMessageDispatcher : IInputMessageDispatcher
         var inputArray = input.ToArray();
         if (inputArray.Length == 0)
             throw new ArgumentException("The input array was empty", nameof(input));
-        var successful = NativeMethods.SendInput(
+        var successful = WindowsNativeMethods.SendInput(
             (uint)inputArray.Length,
             inputArray,
             sr_lnputStructureSize

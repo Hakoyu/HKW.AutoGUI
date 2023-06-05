@@ -1,11 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Diagnostics;
 
-namespace HKW.AutoGUI;
+namespace HKW.AutoGUI.Screen;
 
 /// <summary>
 /// 屏幕分辨率 (像素为单位)

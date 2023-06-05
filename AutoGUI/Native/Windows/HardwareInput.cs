@@ -1,4 +1,4 @@
-﻿namespace HKW.AutoGUI;
+﻿namespace HKW.AutoGUI.Native.Windows;
 
 /// <summary>
 /// 硬件输入结构

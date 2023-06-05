@@ -1,11 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.InteropServices;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Runtime.InteropServices;
+using HKW.AutoGUI.Native.Windows;
 
-namespace HKW.AutoGUI;
+namespace HKW.AutoGUI.Screen;
 
 internal class GetAllScreenSize
 {
@@ -23,14 +19,6 @@ internal class GetAllScreenSize
         ref RECT lprcMonitor,
         IntPtr dwData
     );
-
-    public struct RECT
-    {
-        public int Left;
-        public int Top;
-        public int Right;
-        public int Bottom;
-    }
 
     static bool MonitorEnum(IntPtr hMonitor, IntPtr hdcMonitor, ref RECT lprcMonitor, IntPtr dwData)
     {

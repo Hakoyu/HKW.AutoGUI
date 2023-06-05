@@ -1,11 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
-
-namespace HKW.AutoGUI;
+﻿namespace HKW.AutoGUI.InputDeviceState;
 
 /// <summary>
 /// 输入延迟接口

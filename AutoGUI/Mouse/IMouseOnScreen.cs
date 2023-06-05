@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace HKW.AutoGUI;
+﻿namespace HKW.AutoGUI.Mouse;
 
 /// <summary>
 /// 鼠标在屏幕中接口

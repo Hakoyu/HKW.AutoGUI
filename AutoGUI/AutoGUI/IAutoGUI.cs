@@ -1,10 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using HKW.AutoGUI.InputDeviceState;
+using HKW.AutoGUI.Keyboard;
+using HKW.AutoGUI.Mouse;
+using HKW.AutoGUI.Screen;
 
-namespace HKW.AutoGUI;
+namespace HKW.AutoGUI.AutoGUI;
 
 /// <summary>
 /// 自动化GUI接口

@@ -1,10 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Diagnostics;
-using HKW.AutoGUI;
+﻿using HKW.AutoGUI.InputDeviceState;
+using HKW.AutoGUI.Native.Windows;
 
-namespace HKW.AutoGUI;
+namespace HKW.AutoGUI.Keyboard;
 
 /// <summary>
 /// 键盘模拟接口

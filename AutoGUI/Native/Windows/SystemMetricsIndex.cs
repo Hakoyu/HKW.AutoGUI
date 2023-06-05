@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace HKW.AutoGUI;
+﻿namespace HKW.AutoGUI.Native.Windows;
 
 #pragma warning disable CA1069 // 不应复制枚举值
 /// <summary>

@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace HKW.AutoGUI;
+﻿namespace HKW.AutoGUI.Keyboard;
 
 /// <summary>
 /// 键盘输入结构

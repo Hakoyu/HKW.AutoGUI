@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace HKW.AutoGUI;
+﻿namespace HKW.AutoGUI.Mouse;
 
 /// <summary>
 /// 鼠标输入结构

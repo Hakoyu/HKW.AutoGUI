@@ -1,9 +1,11 @@
 ﻿using System.Runtime.InteropServices;
+using HKW.AutoGUI.Keyboard;
+using HKW.AutoGUI.Mouse;
 
-namespace HKW.AutoGUI;
+namespace HKW.AutoGUI.Native.Windows;
 
 /// <summary>
-/// <see cref="NativeMethods.SendInput(uint, InputTypeMessage[], int)"/> 用于存储用于合成输入事件的信息，例如击键、鼠标移动和鼠标单击。
+/// <see cref="WindowsNativeMethods.SendInput(uint, InputTypeMessage[], int)"/> 用于存储用于合成输入事件的信息，例如击键、鼠标移动和鼠标单击。
 /// <para>详情: <a href="https://learn.microsoft.com/zh-cn/windows/win32/api/winuser/ns-winuser-input">MSDN</a></para>
 /// </summary>
 [StructLayout(LayoutKind.Explicit)]
