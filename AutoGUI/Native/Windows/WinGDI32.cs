@@ -6,7 +6,7 @@ using SixLabors.ImageSharp.Advanced;
 
 namespace HKW.AutoGUI.Native.Windows;
 
-internal static class WinGDI32
+public static class WinGDI32
 {
     /// <summary>
     /// 使用GDI截取屏幕
@@ -50,63 +50,26 @@ internal static class WinGDI32
             long sourceRowByteCount = Math.Abs(data.Stride);
             long destRowByteCount = w * sizeof(Bgra32);
             Configuration configuration = image.GetConfiguration();
-            _ = Parallel.For(
-                0,
-                image.Height,
-                y =>
+            using IMemoryOwner<Bgra32> workBuffer =
+                Configuration.Default.MemoryAllocator.Allocate<Bgra32>(w);
+            fixed (Bgra32* destPtr = &MemoryMarshal.GetReference(workBuffer.Memory.Span))
+            {
+                var prt = destPtr;
+                image.ProcessPixelRows(pixelAccessor =>
                 {
-                    using IMemoryOwner<Bgra32> workBuffer =
-                        Configuration.Default.MemoryAllocator.Allocate<Bgra32>(w);
-                    fixed (Bgra32* destPtr = &MemoryMarshal.GetReference(workBuffer.Memory.Span))
+                    for (int y = 0; y < pixelAccessor.Height; y++)
                     {
-                        var tempPrt = destPtr;
-                        byte* sourceRowPtr = sourcePtrBase + (data.Stride * y);
-                        var rows = image.DangerousGetPixelRowMemory(y).Span;
-                        Buffer.MemoryCopy(
-                            sourceRowPtr,
-                            destPtr,
-                            destRowByteCount,
-                            sourceRowByteCount
-                        );
+                        byte* sourcePtr = sourcePtrBase + (data.Stride * y);
+                        var row = pixelAccessor.GetRowSpan(y);
+                        Buffer.MemoryCopy(sourcePtr, prt, destRowByteCount, sourceRowByteCount);
                         PixelOperations<Bgr24>.Instance.FromBgra32(
                             configuration,
-                            workBuffer.Memory.Span,
-                            rows
+                            workBuffer.Memory.Span[..w],
+                            row
                         );
                     }
-                }
-            );
-            //using IMemoryOwner<Bgra32> workBuffer =
-            //    Configuration.Default.MemoryAllocator.Allocate<Bgra32>(w);
-            //fixed (Bgra32* destPtr = &MemoryMarshal.GetReference(workBuffer.Memory.Span))
-            //{
-            //    var prt = destPtr;
-            //    image.ProcessPixelRows(pixelAccessor =>
-            //    {
-            //        for (int y = 0; y < pixelAccessor.Height; y++)
-            //        {
-            //            byte* sourcePtr = sourcePtrBase + (data.Stride * y);
-            //            var row = pixelAccessor.GetRowSpan(y);
-            //            Buffer.MemoryCopy(sourcePtr, prt, destRowByteCount, sourceRowByteCount);
-            //            PixelOperations<Bgr24>.Instance.FromBgra32(
-            //                configuration,
-            //                workBuffer.Memory.Span[..w],
-            //                row
-            //            );
-            //        }
-            //    });
-            //    //for (int y = 0; y < image.Height; y++)
-            //    //{
-            //    //    byte* sourcePtr = sourcePtrBase + (data.Stride * y);
-            //    //    var row = image.DangerousGetPixelRowMemory(y).Span;
-            //    //    Buffer.MemoryCopy(sourcePtr, prt, destRowByteCount, sourceRowByteCount);
-            //    //    PixelOperations<Bgr24>.Instance.FromBgra32(
-            //    //        configuration,
-            //    //        workBuffer.Memory.Span[..w],
-            //    //        row
-            //    //    );
-            //    //}
-            //}
+                });
+            }
         }
         finally
         {

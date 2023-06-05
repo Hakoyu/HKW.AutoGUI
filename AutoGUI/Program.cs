@@ -13,6 +13,16 @@ internal class Program
     public static void Main(string[] args)
     {
 #if DEBUG
+        //_ = Parallel.For(
+        //    0,
+        //    100,
+        //    y =>
+        //    {
+        //        var array = ArrayPool<int>.Shared.Rent(10);
+        //        Console.WriteLine(y);
+        //        ArrayPool<int>.Shared.Return(array);
+        //    }
+        //);
         //HKWAutoGUI.Default.Mouse.AbsoluteMoveTo(30000, 30000, 1000);
         //string file = @"C:\Users\HKW\Desktop\1.bmp";
         //System.Diagnostics.Stopwatch stopWatch = new();

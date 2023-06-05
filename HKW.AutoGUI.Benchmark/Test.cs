@@ -66,5 +66,6 @@ public class Test
     public object? Test1()
     {
         return _bitmap.ToImageSharp();
+        return null;
     }
 }
